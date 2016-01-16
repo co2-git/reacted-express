@@ -1,7 +1,7 @@
 reacted-express
 ===
 
-Express middleware to render a React component on the back-end.
+React rendering server-side using Express
 
 # Install
 
@@ -12,26 +12,35 @@ npm install -s reacted-express
 # Usage
 
 ```js
-import express from 'express';
-import http from 'http';
+// Your React component you want to render server-side
+// components/app.jsx
 import React from 'react';
-import renderReact from 'reacted-express';
 
-class MyComponent extends React.Component {
+export defaul class App extends React.Component {
   render () {
     return (
-      <h1>Hello world</h1>
+      <h1>Hello { this.props.person }</h1>
     );
   }
 }
 
-const app = express();
+// In your express file
 
-// Will render MyComponent as a HTML view
+// Use reacted express as a middleware in your express file
 
-app.use('/', renderReact(MyComponent));
+import renderReact from 'reacted-express';
 
-const server = http.createServer(app);
+// ...
+
+app = express();
+
+// Renders App component as a HTML view
+
+app.use('/', renderReact(App, { person : 'Joe' }));
+
+// Voila!
+
+// ...
 ```
 
 # Inject a React component into a HTML source
@@ -47,30 +56,23 @@ Sometimes you want to inject your main component into a HTML source.
 ```
 
 ```js
-import express from 'express';
-import http from 'http';
-import React from 'react';
-import renderReact from 'reacted-express';
 
-class MyComponent extends React.Component {
-  render () {
-    return (
-      <h1>Hello world</h1>
-    );
-  }
-}
+// ...
 
-const app = express();
+app = express();
+
 
 // Will render the source of index.html
 // ... and replace 'Loading' by the HTML of MyComponent
 
-app.use(renderReact(MyComponent, {}, {
+app.use(renderReact(App, { person : 'Jessie' }, {
   inject : {
     into : 'index.html',
     where : 'Loading'
   }
 }));
 
-const server = http.createServer(app);
+
+// ...
+
 ```
