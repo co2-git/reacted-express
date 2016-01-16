@@ -28,7 +28,6 @@ function inject(file, component, string) {
   var options = arguments.length <= 4 || arguments[4] === undefined ? {} : arguments[4];
 
   return function (req, res, next) {
-    console.log('injecting', component);
     try {
       (function () {
         var app = _react2['default'].createFactory(component)(props);
