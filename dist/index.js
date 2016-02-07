@@ -27,6 +27,7 @@ function inject(file, component, string) {
   var props = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
   var options = arguments.length <= 4 || arguments[4] === undefined ? {} : arguments[4];
 
+  console.log('injecting', { file: file, component: component, string: string, props: props, options: options });
   return function (req, res, next) {
     try {
       (function () {
@@ -40,6 +41,11 @@ function inject(file, component, string) {
         }).on('end', function () {
           try {
             source = source.replace(string, componentToString);
+
+            if (options.inject.props) {
+              source = source.replace(options.inject.props, JSON.stringify(props, null, process.env.NODE_ENV === 'production' ? 0 : 2));
+            }
+
             res.send(source);
           } catch (error) {
             next(error);
@@ -57,7 +63,7 @@ function render(component) {
   var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
   if (options.inject) {
-    return inject(options.inject.into, component, options.inject.where, props);
+    return inject(options.inject.into, component, options.inject.where, props, options);
   }
 
   return function (req, res, next) {
