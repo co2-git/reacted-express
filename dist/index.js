@@ -27,7 +27,6 @@ function inject(file, component, string) {
   var props = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
   var options = arguments.length <= 4 || arguments[4] === undefined ? {} : arguments[4];
 
-  console.log('injecting', { file: file, component: component, string: string, props: props, options: options });
   return function (req, res, next) {
     try {
       (function () {

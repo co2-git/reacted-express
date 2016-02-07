@@ -6,7 +6,6 @@ import React                    from 'react';
 import ReactDOMServer           from 'react-dom/server';
 
 function inject(file, component, string, props = {}, options = {}) {
-  console.log('injecting', { file, component, string, props , options});
   return (req, res, next) => {
     try {
       const app = React.createFactory(component)(props);
