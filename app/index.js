@@ -45,6 +45,6 @@ export default function render(component, props ={}, options = {}) {
 
   return (req, res, next) => {
     const app = React.createFactory(component)(props);
-    res.send(React.renderToString(app));
+    res.send(ReactDOMServer.renderToString(app));
   };
 }

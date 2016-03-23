@@ -1,11 +1,9 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = render;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.default = render;
 
 var _fs = require('fs');
 
@@ -19,9 +17,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDomServer = require('react-dom/server');
+var _server = require('react-dom/server');
 
-var _reactDomServer2 = _interopRequireDefault(_reactDomServer);
+var _server2 = _interopRequireDefault(_server);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function inject(file, component, string) {
   var props = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
@@ -30,12 +30,12 @@ function inject(file, component, string) {
   return function (req, res, next) {
     try {
       (function () {
-        var app = _react2['default'].createFactory(component)(props);
-        var componentToString = _reactDomServer2['default'].renderToString(app);
+        var app = _react2.default.createFactory(component)(props);
+        var componentToString = _server2.default.renderToString(app);
 
         var source = '';
 
-        _fs2['default'].createReadStream(file).on('error', next).on('data', function (data) {
+        _fs2.default.createReadStream(file).on('error', next).on('data', function (data) {
           source += data.toString();
         }).on('end', function () {
           try {
@@ -66,9 +66,7 @@ function render(component) {
   }
 
   return function (req, res, next) {
-    var app = _react2['default'].createFactory(component)(props);
-    res.send(_react2['default'].renderToString(app));
+    var app = _react2.default.createFactory(component)(props);
+    res.send(_server2.default.renderToString(app));
   };
 }
-
-module.exports = exports['default'];
